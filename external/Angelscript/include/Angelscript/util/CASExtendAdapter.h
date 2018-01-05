@@ -7,7 +7,7 @@
 
 #include "CASObjPtr.h"
 
-#include "Angelscript/wrapper/ASCallable.h"
+#include "AngelscriptUtils/wrapper/ASCallable.h"
 
 /**
 *	@addtogroup ASExtend

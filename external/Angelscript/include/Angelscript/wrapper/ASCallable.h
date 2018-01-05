@@ -6,10 +6,10 @@
 
 #include <angelscript.h>
 
-#include "Angelscript/util/ASPlatform.h"
-#include "Angelscript/util/ContextUtils.h"
+#include "../util/ASPlatform.h"
+#include "../util/ContextUtils.h"
 
-#include "Angelscript/IASContextResultHandler.h"
+#include "../IASContextResultHandler.h"
 
 #include "ASCallableConst.h"
 #include "CASContext.h"
@@ -401,6 +401,8 @@ struct CASMethodFunctor final
 	{
 	}
 
+	CASMethodFunctor( const CASMethodFunctor& other ) = default;
+
 	/**
 	*	Calls an object method using varargs.
 	*	@param function Function to call.
@@ -434,6 +436,9 @@ struct CASMethodFunctor final
 
 		return method.CallArgs( flags, args );
 	}
+
+private:
+	CASMethodFunctor& operator=( const CASMethodFunctor& ) = delete;
 };
 
 /**

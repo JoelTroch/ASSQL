@@ -5,7 +5,7 @@
 #include <cstdarg>
 
 #include <angelscript.h>
-#include <Angelscript/wrapper/ASCallable.h>
+#include "AngelscriptUtils/wrapper/ASCallable.h"
 
 /**
 *	Base class for classes that can call events.
@@ -55,8 +55,8 @@ public:
 	CASBaseEventCaller& operator=( const CASBaseEventCaller& ) = default;
 
 	//Movable
-	CASBaseEventCaller( CASBaseEventCaller&& other ) = default;
-	CASBaseEventCaller& operator=( CASBaseEventCaller&& ) = default;
+	CASBaseEventCaller( CASBaseEventCaller&& other ) {}
+	CASBaseEventCaller& operator=( CASBaseEventCaller&& ) {}
 
 	/**
 	*	Forwards the call to the subclass.

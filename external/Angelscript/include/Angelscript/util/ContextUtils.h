@@ -3,7 +3,7 @@
 
 #include <angelscript.h>
 
-#include "Angelscript/wrapper/CASArguments.h"
+#include "../wrapper/CASArguments.h"
 
 /**
 *	@addtogroup ASContext

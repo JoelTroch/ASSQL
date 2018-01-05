@@ -6,7 +6,7 @@
 
 #include <angelscript.h>
 
-#include "Angelscript/util/CASBaseClass.h"
+#include "AngelscriptUtils/util/CASBaseClass.h"
 
 class CASModule;
 class CScriptAny;
@@ -145,7 +145,7 @@ public:
 		*/
 		void Called()
 		{
-			assert( m_iRepeatCount > 0 );
+			assert( m_iRepeatCount > 0 || ( IsInfiniteRepeat() && m_iRepeatCount == REPEAT_INF_TIMES ) );
 
 			if( !IsInfiniteRepeat() )
 				--m_iRepeatCount;

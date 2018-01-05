@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Angelscript/util/CASBaseClass.h"
+#include "../util/CASBaseClass.h"
 
 class asIScriptEngine;
 

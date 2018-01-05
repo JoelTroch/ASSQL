@@ -10,9 +10,9 @@
 
 #include <angelscript.h>
 
-#include "Angelscript/wrapper/CASArguments.h"
+#include "../wrapper/CASArguments.h"
 
-#include "Angelscript/util/ContextUtils.h"
+#include "../util/ContextUtils.h"
 
 #include "ASLogging.h"
 
@@ -312,7 +312,10 @@ void RegisterVarArgs( asIScriptEngine& engine, REGFUNCTOR regFunctor,
 
 		std::string str = stream.str();
 
-		const auto result = regFunctor( engine, str.c_str(), funcPtr, asCALL_GENERIC, pAuxiliary );
+#ifndef NDEBUG
+		const auto result =
+#endif
+			regFunctor( engine, str.c_str(), funcPtr, asCALL_GENERIC, pAuxiliary );
 
 		assert( result >= 0 );
 
@@ -366,11 +369,16 @@ struct CASRegisterMethod final
 	{
 	}
 
+	CASRegisterMethod( const CASRegisterMethod& other ) = default;
+
 	int operator()( asIScriptEngine& engine, const char* const pszDeclaration,
 					const asSFuncPtr& funcPtr, asDWORD callConv, void* pAuxiliary = nullptr )
 	{
 		return engine.RegisterObjectMethod( pszObjectName, pszDeclaration, funcPtr, callConv, pAuxiliary );
 	}
+
+private:
+	CASRegisterMethod& operator=( const CASRegisterMethod& ) = delete;
 };
 
 /**
@@ -413,6 +421,8 @@ struct CASFunctionIterator final
 	{
 	}
 
+	CASFunctionIterator( const CASFunctionIterator& other ) = default;
+
 	/**
 	*	@return Number of functions.
 	*/
@@ -427,6 +437,9 @@ struct CASFunctionIterator final
 	{
 		return module.GetFunctionByIndex( uiIndex );
 	}
+
+private:
+	CASFunctionIterator& operator=( const CASFunctionIterator& ) = delete;
 };
 
 /**
@@ -444,8 +457,11 @@ struct CASMethodIterator final
 		: objectType( objectType )
 	{
 		//Must be an object.
+		//TODO: asOBJ_VALUE should also count - Solokiller
 		assert( objectType.GetFlags() & ( asOBJ_REF ) );
 	}
+
+	CASMethodIterator( const CASMethodIterator& other ) = default;
 
 	/**
 	*	@return Number of methods.
@@ -461,6 +477,9 @@ struct CASMethodIterator final
 	{
 		return objectType.GetMethodByIndex( uiIndex );
 	}
+
+private:
+	CASMethodIterator& operator=( const CASMethodIterator& ) = delete;
 };
 
 /**
@@ -677,9 +696,11 @@ bool RegisterCasts( asIScriptEngine& engine, const char* const pszBaseType, cons
 
 		if( result >= 0 && static_cast<size_t>( result ) < sizeof( szBuffer ) )
 		{
-			//Allocate a string here because documentation does not allocate anything itself.
-			const auto retCode = engine.RegisterObjectMethod(
-				pszSubType, szBuffer, asFUNCTION( upcast ), asCALL_CDECL_OBJFIRST );
+#ifndef NDEBUG
+			const auto retCode =
+#endif
+				engine.RegisterObjectMethod(
+					pszSubType, szBuffer, asFUNCTION( upcast ), asCALL_CDECL_OBJFIRST );
 
 			assert( retCode >= 0 );
 		}
@@ -693,8 +714,11 @@ bool RegisterCasts( asIScriptEngine& engine, const char* const pszBaseType, cons
 
 		if( result >= 0 && static_cast<size_t>( result ) < sizeof( szBuffer ) )
 		{
-			const auto retCode = engine.RegisterObjectMethod(
-				pszBaseType, szBuffer, asFUNCTION( downcast ), asCALL_CDECL_OBJFIRST );
+#ifndef NDEBUG
+			const auto retCode =
+#endif
+				engine.RegisterObjectMethod(
+					pszBaseType, szBuffer, asFUNCTION( downcast ), asCALL_CDECL_OBJFIRST );
 
 			assert( retCode >= 0 );
 		}

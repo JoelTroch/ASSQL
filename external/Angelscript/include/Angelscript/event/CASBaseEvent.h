@@ -5,9 +5,9 @@
 
 #include <angelscript.h>
 
-#include "Angelscript/util/ASUtil.h"
+#include "AngelscriptUtils/util/ASUtil.h"
 
-#include "Angelscript/wrapper/ASCallableConst.h"
+#include "AngelscriptUtils/wrapper/ASCallableConst.h"
 
 class CASModule;
 
